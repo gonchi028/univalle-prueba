@@ -35,7 +35,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.VM_PORT }}
           source: "setup_vm.sh"
-          target: "~/tmp/"
+          target: "/tmp/"
       # Ejecutar script de configuracion en la VM de OCI
       - name: Ejecutar script de instalacion de docker en la VM
         uses: appleboy/ssh-action@master
@@ -44,8 +44,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            chmod +x ~/tmp/setup_vm.sh
-            ~/tmp/setup_vm.sh ${{ secrets.SSH_USER }}
+            chmod +x /tmp/setup_vm.sh
+            /tmp/setup_vm.sh ${{ secrets.SSH_USER }}
             rm /tmp/setup_vm.sh # Eliminar script por seguridad
       # Copiar el docker-compose.yml a la VM de OCI
       - name: Copiar docker-compose.yml a la VM
