@@ -76,3 +76,15 @@ jobs:
             sudo docker-compose pull
             sudo docker-compose up -d --force-recreate
             sudo docker logout
+  send_email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          subject: "Despliegue completado"
+          body: "El despliegue de la aplicación se ha completado exitosamente. http://${{ secrets.SSH_HOST }}"
+          to: gonchi.028@gmail.com
+          from: Luke Skywalker
