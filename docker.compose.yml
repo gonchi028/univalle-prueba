@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  web:
+    image: gonchi028/univalle-prueba:latest # repo de dockerhub
+    container_name: mi-pagina-web
+    ports:
+      - "80:80"
+    restart: always
