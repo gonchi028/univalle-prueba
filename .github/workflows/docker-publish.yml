@@ -71,12 +71,17 @@ jobs:
           script: |
             DEPLOY_PATH="/home/${{ secrets.SSH_USER }}/deploy"
             cd $DEPLOY_PATH
+            
+            # Detener y limpiar servicios anteriores 
+            sudo docker-compose down
+            
             # Descargar la imagen desde docker hub
             echo ${{ secrets.DOCKER_PAT }} | sudo docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
             sudo docker-compose pull
             sudo docker-compose up -d --force-recreate
             sudo docker logout
   send_email:
+    needs: deploy
     runs-on: ubuntu-latest
     steps:
       - name: Send email
