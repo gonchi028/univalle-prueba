@@ -24,8 +24,7 @@ jobs:
     steps:
       - name: Checkout del codigo (obtener docker-compose.yml, setup_vm.sh)
         uses: actions/checkout@v5
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
       # Configurar acceso ssh
       - name: Configurar agente SSH
         uses: webfactory/ssh-agent@v0.9.0
@@ -77,6 +76,7 @@ jobs:
             
             # Descargar la imagen desde docker hub
             echo ${{ secrets.DOCKER_PAT }} | sudo docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+
             sudo docker-compose pull
             sudo docker-compose up -d --force-recreate
             sudo docker logout
@@ -87,6 +87,8 @@ jobs:
       - name: Send email
         uses: dawidd6/action-send-mail@v3
         with:
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
           server_address: smtp.gmail.com
           server_port: 465
           subject: "Despliegue completado"
